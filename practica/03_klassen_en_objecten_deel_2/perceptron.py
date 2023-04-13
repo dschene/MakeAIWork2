@@ -1,7 +1,7 @@
 import logging
 import numpy as np
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 # OPDDRACHT
 # Voeg de ontbrekende code toe zodanig dat je met deze
@@ -25,6 +25,16 @@ class Perceptron:
     def __init__(self):
         self.weightVector = None
         self.bias = 0
+        
+    def predict(self, inputVector):
+        # Test de perceptron
+
+        activation = np.dot(inputVector, self.weightVector) + self.bias
+        
+        logging.debug(f"activation : {activation}")
+
+        return 1 if activation > 0 else 0
+        
 
     def initialize(self, nrOfFeatures):
         """Initialize w and b as zero"""
@@ -40,6 +50,8 @@ class Perceptron:
         Train the perceptron using the inputVector
         and target labels
         """
+   
+
         # Initialize weights and bias
         nrOfFeatures = X.shape[1]
         self.initialize(nrOfFeatures)
@@ -65,26 +77,30 @@ class Perceptron:
                 error = label - prediction
                 logging.debug(f"error : {error}")
 
-                # update weight and b
-
-                if error != 0:
-                    self.weightVector = weight + error * label
-
+                # update weight and bias
+                
+                deltaWeight = inputVector * error * learningRate
+                self.weightVector += deltaWeight
                 logging.debug(f"deltaWeight : {deltaWeight}")
-
+                
                 logging.debug(f"learningRate : {learningRate}")
 
-                self.bias = self.bias + error
+                deltaBias= error * learningRate
+                self.bias += deltaBias
+
                 logging.debug(f"deltaBias : {deltaBias}")
 
                 print()
 
-    def predict(self, inputVector):
+    #def predict(self, inputVector):
         """
         Determin outputvalue by multiplying
         inputvector with weightvector
         """
-        activation = np.dot(inputVector, self.weightVector) + self.bias
-        logging.debug(f"activation : {activation}")
+       # activation = np.dot(inputVector, self.weightVector) + self.bias
+        
+       # logging.debug(f"activation : {activation}")
 
-        return 1 if activation > 0 else 0
+    #return 1 if activation > 0 else 0
+    
+  
