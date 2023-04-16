@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 echo "Generate directory accessories"
-python -m simpylc -a
+python3 -m simpylc -a
 
 
 
