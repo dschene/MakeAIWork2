@@ -21,15 +21,21 @@ import math as mt
 import sys as ss
 import os
 import socket as sc
+import pickle 
+import torch
+import socket_wrapper as sw
+import parameters as pm
+
+model_1 = pickle.load(open('simulations/car/control_client/model_1.pkl', 'rb'))
 
 ss.path +=  [os.path.abspath (relPath) for relPath in  ('..',)] 
 
-import socket_wrapper as sw
-import parameters as pm
 
 class HardcodedClient:
     def __init__ (self):
         self.steeringAngle = 0
+
+        self.model = model_1
 
         with open (pm.sampleFileName, 'w') as self.sampleFile:
             with sc.socket (*sw.socketType) as self.clientSocket:
@@ -58,56 +64,49 @@ class HardcodedClient:
             self.sonarDistances = sensors ['sonarDistances']
 
     def lidarSweep (self):
-        nearestObstacleDistance = pm.finity
-        nearestObstacleAngle = 0
-        
-        nextObstacleDistance = pm.finity
-        nextObstacleAngle = 0
+        sample = [pm.finity for entryIndex in range (pm.lidarInputDim + 1)]
 
         for lidarAngle in range (-self.halfApertureAngle, self.halfApertureAngle):
-            lidarDistance = self.lidarDistances [lidarAngle]
-            
-            if lidarDistance < nearestObstacleDistance:
-                nextObstacleDistance =  nearestObstacleDistance
-                nextObstacleAngle = nearestObstacleAngle
-                
-                nearestObstacleDistance = lidarDistance 
-                nearestObstacleAngle = lidarAngle
+            sectorIndex = round (lidarAngle / self.sectorAngle)
+            sample [sectorIndex] = min (sample [sectorIndex], self.lidarDistances [lidarAngle])
 
-            elif lidarDistance < nextObstacleDistance:
-                nextObstacleDistance = lidarDistance
-                nextObstacleAngle = lidarAngle
-           
-        targetObstacleDistance = (nearestObstacleDistance + nextObstacleDistance) / 2
+        lidar_data = sample[:16]
 
-        self.steeringAngle = (nearestObstacleAngle + nextObstacleAngle) / 2
+        input_tensor = torch.tensor(lidar_data)
+
+        self.steeringAngle = self.model(input_tensor).item()
         self.targetVelocity = pm.getTargetVelocity (self.steeringAngle)
 
     def sonarSweep (self):
-        obstacleDistances = [pm.finity for sectorIndex in range (3)]
-        obstacleAngles = [0 for sectorIndex in range (3)]
-        
-        for sectorIndex in (-1, 0, 1):
-            sonarDistance = self.sonarDistances [sectorIndex]
-            sonarAngle = 2 * self.halfMiddleApertureAngle * sectorIndex
-            
-            if sonarDistance < obstacleDistances [sectorIndex]:
-                obstacleDistances [sectorIndex] = sonarDistance
-                obstacleAngles [sectorIndex] = sonarAngle
+        sample = [pm.finity for entryIndex in range (pm.sonarInputDim + 1)]
 
-        if obstacleDistances [-1] > obstacleDistances [0]:
-            leftIndex = -1
-        else:
-            leftIndex = 0
-           
-        if obstacleDistances [1] > obstacleDistances [0]:
-            rightIndex = 1
-        else:
-            rightIndex = 0
-           
-        self.steeringAngle = (obstacleAngles [leftIndex] + obstacleAngles [rightIndex]) / 2
+        for entryIndex, sectorIndex in ((2, -1), (0, 0), (1, 1)):
+            sample [entryIndex] = self.sonarDistances [sectorIndex]
+
+        sample [-1] = self.steeringAngle
+        
+
+        sonar_data = sample[:-2]
+
+        input_tensor = torch.tensor(sonar_data)
+
+        self.steeringAngle = self.model(input_tensor).item()
         self.targetVelocity = pm.getTargetVelocity (self.steeringAngle)
 
+    # def predict(self):
+    #     sample = [pm.finity for entryIndex in range (pm.lidarInputDim + 1)]
+
+    #     for lidarAngle in range (-self.halfApertureAngle, self.halfApertureAngle):
+    #         sectorIndex = round (lidarAngle / self.sectorAngle)
+    #         sample [sectorIndex] = min (sample [sectorIndex], self.lidarDistances [lidarAngle])
+
+    #     lidar_data = sample[:16]
+
+    #     input_tensor = torch.tensor(lidar_data)
+
+    #     self.steeringAngle = self.model(input_tensor).item()
+    #     self.targetVelocity = pm.getTargetVelocity (self.steeringAngle)
+        
     def sweep (self):
         if hasattr (self, 'lidarDistances'):
             self.lidarSweep ()
