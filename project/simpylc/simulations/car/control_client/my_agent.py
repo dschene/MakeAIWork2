@@ -9,10 +9,8 @@ import torch
 import socket_wrapper as sw
 import parameters as pm
 
-
-
-lidar_model_1 = pickle.load(open('./models/model_1.pkl', 'rb'))
-
+lidar_model_1 = pickle.load(open('simulations/car/control_client/models/model_1.pkl', 'rb'))
+sonar_model_1 = None
 
 ss.path +=  [os.path.abspath (relPath) for relPath in  ('..',)] 
 
@@ -20,8 +18,6 @@ ss.path +=  [os.path.abspath (relPath) for relPath in  ('..',)]
 class HardcodedClient:
     def __init__ (self):
         self.steeringAngle = 0
-
-        self.model = lidar_model_1
 
         with open (pm.sampleFileName, 'w') as self.sampleFile:
             with sc.socket (*sw.socketType) as self.clientSocket:
@@ -46,8 +42,12 @@ class HardcodedClient:
             
         if 'lidarDistances' in sensors:
             self.lidarDistances = sensors ['lidarDistances']
+            #set model to sonar/lidar choice 
+            self.model = lidar_model_1
         else:
             self.sonarDistances = sensors ['sonarDistances']
+            #set model to sonar/lidar choice 
+            self.model = sonar_model_1
 
     def lidarSweep (self):
         sample = [pm.finity for entryIndex in range (pm.lidarInputDim + 1)]
