@@ -18,3 +18,7 @@ practica/02_klassen_en_objecten_deel_1/tetris/screenshot/1.png
 .ipynb_checkpoints
 .ipynb_checkpoints/pytorch-kruisjes-rondjes-checkpoint.ipynb
 .ipynb_checkpoints/pytorch-kruisjes-rondjes-checkpoint.ipynb
+project/simpylc/simulations/arduino_led_timer/__pycache__/led_timer.cpython-311.pyc
+project/simpylc/simulations/arduino_led_timer/__pycache__/timing.cpython-311.pyc
+project/simpylc/simulations/arduino_led_timer/__pycache__/world.cpython-311.pyc
+project/simpylc/simulations/car/__pycache__/visualisation.cpython-310.pyc
