@@ -92,20 +92,6 @@ class HardcodedClient:
 
         self.steeringAngle = self.model(input_tensor).item()
         self.targetVelocity = pm.getTargetVelocity (self.steeringAngle)
-
-    # def predict(self):
-    #     sample = [pm.finity for entryIndex in range (pm.lidarInputDim + 1)]
-
-    #     for lidarAngle in range (-self.halfApertureAngle, self.halfApertureAngle):
-    #         sectorIndex = round (lidarAngle / self.sectorAngle)
-    #         sample [sectorIndex] = min (sample [sectorIndex], self.lidarDistances [lidarAngle])
-
-    #     lidar_data = sample[:16]
-
-    #     input_tensor = torch.tensor(lidar_data)
-
-    #     self.steeringAngle = self.model(input_tensor).item()
-    #     self.targetVelocity = pm.getTargetVelocity (self.steeringAngle)
         
     def sweep (self):
         if hasattr (self, 'lidarDistances'):
