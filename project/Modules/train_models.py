@@ -94,7 +94,3 @@ for i in tqdm(range(epochs_s)):
     losses_s.append(sum(ep_loss) / len(sonar_loader))
                     
 pickle.dump(sonar_model, open('./models/sonar_model.pkl', 'wb'))
-
-
-
-print()
