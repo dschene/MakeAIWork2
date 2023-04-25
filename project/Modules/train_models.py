@@ -27,10 +27,9 @@ Y_sonar = torch.Tensor(sonar_samples.iloc[:, -1:].to_numpy()).to(device)
 X_lidar = torch.Tensor(lidar_samples.iloc[:, :-1].to_numpy()).to(device)
 Y_lidar = torch.Tensor(lidar_samples.iloc[:, -1:].to_numpy()).to(device)
 
+#######################################################
 #Using DataLoader to iterate over the datasets and optionally shuffle + set batch size of training
 
-
-#######################################################
 
 lidar_loader = DataLoader(list(zip(X_lidar, Y_lidar)), shuffle=False, batch_size=10)
 sonar_loader = DataLoader(list(zip(X_sonar, Y_sonar)), shuffle=True, batch_size=10)

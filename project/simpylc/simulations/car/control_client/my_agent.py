@@ -9,16 +9,12 @@ import torch
 import socket_wrapper as sw
 import parameters as pm
 
-<<<<<<< HEAD
+
 project_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 ss.path.append(project_path + '/Modules/')
 
 lidar_model = pickle.load(open('./models/lidar_model.pkl', 'rb'))
 sonar_model = pickle.load(open('./models/sonar_model.pkl', 'rb'))
-=======
-lidar_model_1 = pickle.load(open('simulations/car/control_client/models/model_1.pkl', 'rb'))
-sonar_model_1 = None
->>>>>>> 598dad2db34dfb17d169db88f9f4de035345d7bf
 
 ss.path +=  [os.path.abspath (relPath) for relPath in  ('..',)] 
 
@@ -51,19 +47,12 @@ class HardcodedClient:
         if 'lidarDistances' in sensors:
             self.lidarDistances = sensors ['lidarDistances']
             #set model to sonar/lidar choice 
-<<<<<<< HEAD
             self.model = lidar_model
         else:
             self.sonarDistances = sensors ['sonarDistances']
             #set model to sonar/lidar choice 
             self.model = sonar_model
-=======
-            self.model = lidar_model_1
-        else:
-            self.sonarDistances = sensors ['sonarDistances']
-            #set model to sonar/lidar choice 
-            self.model = sonar_model_1
->>>>>>> 598dad2db34dfb17d169db88f9f4de035345d7bf
+
 
     def lidarSweep (self):
         sample = [pm.finity for entryIndex in range (pm.lidarInputDim + 1)]
@@ -85,18 +74,7 @@ class HardcodedClient:
         for entryIndex, sectorIndex in ((2, -1), (0, 0), (1, 1)):
             sample [entryIndex] = self.sonarDistances [sectorIndex]
 
-<<<<<<< HEAD
-        sample[-1] = self.steeringAngle
-        
-
         sonar_data = sample[:-1]
-=======
-        sample [-1] = self.steeringAngle
-        
-
-        sonar_data = sample[:-2]
->>>>>>> 598dad2db34dfb17d169db88f9f4de035345d7bf
-
         input_tensor = torch.tensor(sonar_data)
 
         self.steeringAngle = self.model(input_tensor).item()
