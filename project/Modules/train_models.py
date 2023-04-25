@@ -43,12 +43,12 @@ sonar_model = Sonar_sweep(3, 10, 5, 1).to(device)
 #######################################################
 #Training lidar model
 
-learning_rate_l = 0.00005
+learning_rate_l = 0.00001
 
 loss_function = nn.MSELoss()
 gradientDescent = torch.optim.SGD(lidar_model.parameters(), lr=learning_rate_l)
 
-epochs_l = 10
+epochs_l = 200
 losses_l = []
 
 lidar_model.train()

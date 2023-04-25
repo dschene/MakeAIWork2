@@ -74,7 +74,7 @@ class HardcodedClient:
         for entryIndex, sectorIndex in ((2, -1), (0, 0), (1, 1)):
             sample [entryIndex] = self.sonarDistances [sectorIndex]
 
-        sonar_data = sample[:-1]
+        sonar_data = sample[:3]
         input_tensor = torch.tensor(sonar_data)
 
         self.steeringAngle = self.model(input_tensor).item()
