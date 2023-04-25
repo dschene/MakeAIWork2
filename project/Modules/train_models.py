@@ -38,17 +38,17 @@ sonar_loader = DataLoader(list(zip(X_sonar, Y_sonar)), shuffle=True, batch_size=
 #Creating the models with the layer parameters (layer counts are already defined in Models.py)
 
 lidar_model = Lidar_sweep(16, 100, 75, 50, 25, 1).to(device)
-sonar_model = Sonar_sweep(3, 10, 5, 1).to(device)
+sonar_model = Sonar_sweep(3, 64, 32, 1).to(device)
 
 #######################################################
 #Training lidar model
 
-learning_rate_l = 0.00001
+learning_rate_l = 0.00005
 
 loss_function = nn.MSELoss()
 gradientDescent = torch.optim.SGD(lidar_model.parameters(), lr=learning_rate_l)
 
-epochs_l = 10
+epochs_l = 500
 losses_l = []
 
 lidar_model.train()
@@ -78,7 +78,7 @@ learing_rate_s = 0.0001
 
 grad_desc = torch.optim.SGD(sonar_model.parameters(), lr=learing_rate_s)
 
-epochs_s = 10
+epochs_s = 3000
 losses_s = []
 sonar_model.train()
 
