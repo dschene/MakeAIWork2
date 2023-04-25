@@ -3,5 +3,4 @@
 export PYTHONPATH=simulations/car
 export LIBGL_ALLOW_SOFTWARE=1
 
-<<<<<<< HEAD
 python simulations/car/control_client/hardcoded_client.py

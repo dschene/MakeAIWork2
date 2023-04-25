@@ -32,7 +32,7 @@ Y_lidar = torch.Tensor(lidar_samples.iloc[:, -1:].to_numpy()).to(device)
 
 
 lidar_loader = DataLoader(list(zip(X_lidar, Y_lidar)), shuffle=False, batch_size=10)
-sonar_loader = DataLoader(list(zip(X_sonar, Y_sonar)), shuffle=True, batch_size=10)
+sonar_loader = DataLoader(list(zip(X_sonar, Y_sonar)), shuffle=True, batch_size=25)
 
 #######################################################
 #Creating the models with the layer parameters (layer counts are already defined in Models.py)
@@ -48,7 +48,7 @@ learning_rate_l = 0.00001
 loss_function = nn.MSELoss()
 gradientDescent = torch.optim.SGD(lidar_model.parameters(), lr=learning_rate_l)
 
-epochs_l = 200
+epochs_l = 10
 losses_l = []
 
 lidar_model.train()
@@ -66,6 +66,7 @@ for i in tqdm(range(epochs_l)):
         
     losses_l.append(sum(epoch_loss) / len(lidar_loader))
 
+print(f"Final MSE loss/cost for the lidar model is {round(losses_l[-1],2)}")
 #######################################################
 
 pickle.dump(lidar_model, open('./models/lidar_model.pkl', 'wb'))
@@ -73,7 +74,7 @@ pickle.dump(lidar_model, open('./models/lidar_model.pkl', 'wb'))
 #######################################################
 #Training sonar model
 
-learing_rate_s = 0.000001
+learing_rate_s = 0.0001
 
 grad_desc = torch.optim.SGD(sonar_model.parameters(), lr=learing_rate_s)
 
@@ -93,5 +94,7 @@ for i in tqdm(range(epochs_s)):
         ep_loss.append(loss.item())
     
     losses_s.append(sum(ep_loss) / len(sonar_loader))
-                    
+
+print(f"Final MSE loss/cost for the sonar model is {round(losses_s[-1],2)}")
+
 pickle.dump(sonar_model, open('./models/sonar_model.pkl', 'wb'))
