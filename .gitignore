@@ -21,4 +21,8 @@ practica/02_klassen_en_objecten_deel_1/tetris/screenshot/1.png
 project/simpylc/simulations/arduino_led_timer/__pycache__/led_timer.cpython-311.pyc
 project/simpylc/simulations/arduino_led_timer/__pycache__/timing.cpython-311.pyc
 project/simpylc/simulations/arduino_led_timer/__pycache__/world.cpython-311.pyc
+<<<<<<< HEAD
 project/simpylc/simulations/car/__pycache__/visualisation.cpython-310.pyc
+=======
+project/simpylc/simulations/car/__pycache__/visualisation.cpython-310.pyc
+>>>>>>> 598dad2db34dfb17d169db88f9f4de035345d7bf
