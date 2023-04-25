@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 from Models_c import Lidar_sweep, Sonar_sweep
-=======
-from Models import Lidar_sweep
-from Models import Sonar_sweep
->>>>>>> 598dad2db34dfb17d169db88f9f4de035345d7bf
 from torch.utils.data import DataLoader
 from torch import nn
 
@@ -14,7 +9,6 @@ import torch.optim as optim
 import matplotlib.pyplot as plt
 import pickle
 
-<<<<<<< HEAD
 #device = ("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 device = 'cpu'
 
@@ -34,31 +28,15 @@ X_lidar = torch.Tensor(lidar_samples.iloc[:, :-1].to_numpy()).to(device)
 Y_lidar = torch.Tensor(lidar_samples.iloc[:, -1:].to_numpy()).to(device)
 
 #Using DataLoader to iterate over the datasets and optionally shuffle + set batch size of training
-=======
+
 
 #######################################################
-
-lidar_samples = pd.read_table('../Data/lidar_samples', sep = ' ', header=None)
-sonar_samples = pd.read_table('../Data/lidar_samples', sep = ' ', header=None)
-
-#######################################################
-
-X_sonar = torch.Tensor(sonar_samples.iloc[:, :-1].to_numpy())
-Y_sonar = torch.Tensor(sonar_samples.iloc[:, -1:].to_numpy())
-
-X_lidar = torch.Tensor(lidar_samples.iloc[:, :-1].to_numpy())
-Y_lidar = torch.Tensor(lidar_samples.iloc[:, -1:].to_numpy())
->>>>>>> 598dad2db34dfb17d169db88f9f4de035345d7bf
 
 lidar_loader = DataLoader(list(zip(X_lidar, Y_lidar)), shuffle=False, batch_size=10)
 sonar_loader = DataLoader(list(zip(X_sonar, Y_sonar)), shuffle=True, batch_size=10)
 
 #######################################################
-
-<<<<<<< HEAD
 #Creating the models with the layer parameters (layer counts are already defined in Models.py)
-
-
 
 lidar_model = Lidar_sweep(16, 100, 75, 50, 25, 1).to(device)
 sonar_model = Sonar_sweep(3, 10, 5, 1).to(device)
