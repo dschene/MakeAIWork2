@@ -36,6 +36,8 @@ sonar_loader = DataLoader(list(zip(X_sonar, Y_sonar)), shuffle=True, batch_size=
 
 #Creating the models with the layer parameters (layer counts are already defined in Models.py)
 
+
+
 lidar_model = Lidar_sweep(16, 100, 75, 50, 25, 1).to(device)
 sonar_model = Sonar_sweep(3, 10, 5, 1).to(device)
 
@@ -94,3 +96,6 @@ for i in tqdm(range(epochs_s)):
     losses_s.append(sum(ep_loss) / len(sonar_loader))
                     
 pickle.dump(sonar_model, open('./models/sonar_model.pkl', 'wb'))
+
+
+###
