@@ -48,7 +48,7 @@ learning_rate_l = 0.00005
 loss_function = nn.MSELoss()
 gradientDescent = torch.optim.SGD(lidar_model.parameters(), lr=learning_rate_l)
 
-epochs_l = 500
+epochs_l = int(input('Amount of training epochs for lidar model: '))
 losses_l = []
 
 lidar_model.train()
@@ -78,7 +78,7 @@ learing_rate_s = 0.0001
 
 grad_desc = torch.optim.SGD(sonar_model.parameters(), lr=learing_rate_s)
 
-epochs_s = 3000
+epochs_s = int(input('Amount of training epochs for sonar model: '))
 losses_s = []
 sonar_model.train()
 
