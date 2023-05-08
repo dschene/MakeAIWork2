@@ -38,7 +38,7 @@ sonar_loader = DataLoader(list(zip(X_sonar, Y_sonar)), shuffle=True, batch_size=
 #Creating the models with the layer parameters (layer counts are already defined in Models.py)
 
 lidar_model = Lidar_sweep(16, 100, 75, 50, 25, 1).to(device)
-sonar_model = Sonar_sweep(3, 64, 32, 1).to(device)
+sonar_model = Sonar_sweep(3, 32, 16, 1).to(device)
 
 #######################################################
 #Training lidar model
